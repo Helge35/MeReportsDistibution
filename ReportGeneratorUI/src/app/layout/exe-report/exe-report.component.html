@@ -1,0 +1,40 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Missions Execution Report'" [icon]="'fa-desktop'"></app-page-header>
+
+    <div *ngIf='execMissions && execMissions.length'>
+        <div style="float: left;">
+            <div class="form-group" style="vertical-align:top; padding-top:10px">
+                <select [(ngModel)]="selectedExecMission" class="form-control" style="width: 400px">
+                    <option *ngFor="let miss of execMissions" [ngValue]="miss">{{miss.Name}} </option>
+                </select>
+            </div>
+            <div *ngIf='selectedExecMission'>
+                <table style="width: 400px" class="card-body table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 170px">Start</th>
+                            <th style="width: 170px">End</th>
+                            <th style="width: 50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let exec of selectedExecMission.ExecutionInfo'>
+                            <td> {{ (exec.StartAt !== null) ? (exec.StartAt | date: 'dd/MM/yyyy HH:mm') : "---" }}</td>
+                            <td> {{ (exec.EndAt !== null) ? (exec.EndAt | date: 'dd/MM/yyyy HH:mm') : "---" }}</td>
+
+                            <td>
+                                <button type="button" class="btn btn-info" (click)="getExecutedMissionStepsStatuses(exec.ExecutionID)"> Show</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="float: left; margin-left: 50px">
+            <report-details-status [ExecutionStepsInfo]="execSteps"></report-details-status>
+        </div>
+
+
+    </div>
+</div>

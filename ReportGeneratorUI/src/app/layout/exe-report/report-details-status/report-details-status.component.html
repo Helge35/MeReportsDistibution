@@ -1,0 +1,38 @@
+<div *ngIf="execSteps" style="vertical-align: top;">
+  <ul class="list-group" style="vertical-align:top;height:400px;overflow-y: auto; padding-top:10px">
+    <li class="list-group-item" *ngFor="let info of execSteps">
+      <div class="alert alert-info">
+        <strong>{{info.Name}} {{info.TypeName}}</strong>
+      </div>
+      <table *ngIf="info.StatusInfo && info.StatusInfo.length" class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th style="width: 70px">Iterations #</th>
+            <th style="width: 170px">Start</th>
+            <th style="width: 170px">End</th>
+            <th style="width: 100px">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let status of info.StatusInfo">
+            <td>{{status.IterationsNumber}}</td>
+            <td>{{ (status.StartAt !== null) ? (status.StartAt | date: 'dd/MM/yyyy HH:mm') : "---" }} </td>
+            <td>{{ (status.EndAt !== null) ? (status.EndAt | date: 'dd/MM/yyyy HH:mm') : "---" }} </td>
+            <td>{{status.StatusID | exeStatusPipe:  status.StatusID}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
+<div style="height: 30px;"></div>
+  <div class="card mb-3">
+    <div class="card-header">
+      Steps Execution Period
+    </div>
+    <div class="card-body">
+      <canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+      </canvas>
+    </div>
+  </div>
+</div>
